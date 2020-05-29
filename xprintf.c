@@ -19,7 +19,7 @@
 /-------------------------------------------------------------------------*/
 
 #include "xprintf.h"
-
+#include "xprintf_extended.h"
 #if _USE_XFUNC_OUT
 #include <stdarg.h>
 void (*xfunc_out)(unsigned char); /* Pointer to the output stream */
@@ -106,6 +106,7 @@ static void xvprintf(const char *fmt, /* Pointer to the format string */
   unsigned int r, i, j, w, f;
   int n;
   char s[32], c, d, *p;
+	double flt;
 #if _USE_LONGLONG
   _LONGLONG_t v;
   unsigned _LONGLONG_t vs;
@@ -173,6 +174,13 @@ static void xvprintf(const char *fmt, /* Pointer to the format string */
       while (j++ < w)
         xputc(' ');
       continue;
+		case 'F': {    /* Float */
+      flt = va_arg(arp, double);
+      char buffer[64];
+			char *floatString = ftoa(flt, buffer, sizeof(buffer));
+			xputs(floatString);
+      continue;
+		}
     case 'C': /* Character */
       xputc((char)va_arg(arp, int));
       continue;
