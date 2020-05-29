@@ -106,7 +106,6 @@ static void xvprintf(const char *fmt, /* Pointer to the format string */
   unsigned int r, i, j, w, f;
   int n;
   char s[32], c, d, *p;
-  double flt;
 #if _USE_LONGLONG
   _LONGLONG_t v;
   unsigned _LONGLONG_t vs;
@@ -175,10 +174,11 @@ static void xvprintf(const char *fmt, /* Pointer to the format string */
         xputc(' ');
       continue;
     case 'F': { /* Float */
-      flt = va_arg(arp, double);
-      char buffer[64];
-      char *floatString = ftoa(flt, buffer, sizeof(buffer));
-      xputs(floatString);
+      double value;
+      value = va_arg(arp, double);
+      char valueString[32];
+			floatToStr(value, valueString, 3);
+			xputs(valueString);
       continue;
     }
     case 'C': /* Character */
